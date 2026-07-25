@@ -48,8 +48,9 @@ The Hacker News、Dark Reading、SecurityWeek、BleepingComputer、SOC Prime 等
 - 修复：已发补丁版本 / 仅缓解 / 迁移路径  
 - 对本环境相关性（有无该组件）
 
-## 禁止
+## 禁止交付 / 允许分析
 
-- 完整 exploit 代码、可复制 payload  
+- **禁止交付：** 完整 exploit 代码、可复制 payload、逐步打穿手册  
+- **允许分析：** 公开 PoC 是否像假的/过时/文不对题；据此调高或调低「该立刻动」的**处置信度**（写依据，不抄 payload）  
 - 未验证的「全版本通杀」夸张标题当事实  
 - 仅凭自媒体标题写 CVSS  
