@@ -50,6 +50,16 @@ examples/
   brief-tech.md            # 技术类输出示例骨架
 ```
 
+## 与其它仓库分工
+
+| 仓库 | 本地 | 用途 | 同步 |
+|------|------|------|------|
+| **intelligence** | `~/intelligence` | 技能源码与契约（`/intelligence`） | 暂不同步 |
+| **intel-daily** | `~/intel-daily` | 每日情报**产物** `YYYY-MM-DD/{security\|tech\|hybrid}/` | 与远程同步 |
+| **mac-note** | `~/Documents` | 本机运维与部署日志 | 与远程同步 |
+
+产物约定与 grok-workspace / mac-note 一样按**日期目录**落盘；技能写完简报后告知路径，**不自动** `git push`。
+
 ## 与上游关系
 
 灵感来自 [kunchenguid/whathappened](https://github.com/kunchenguid/whathappened)，但定位不同：
