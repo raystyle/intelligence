@@ -19,7 +19,7 @@ metadata:
 产出可扫读的**中文中立简报**。
 
 本技能维护于 `raystyle/intelligence`（源码）。  
-**情报产物**写入日更仓库 **`~/intel-daily`**（远程 `raystyle/intel-daily`），与 `mac-note` 运维日志分离。
+**情报产物**写入日更仓库 **`~/intel-daily`**（远程 `raystyle/intel-daily`），与 `mac-daily` 运维日志分离。
 
 按本文件执行，需要时读 `references/`。
 

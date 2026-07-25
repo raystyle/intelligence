@@ -60,7 +60,7 @@
 |------|------|
 | raystyle/intelligence | 技能源码与契约 |
 | raystyle/intel-daily | 每日情报产物（按日目录） |
-| raystyle/mac-note | 本机日常操作与部署日志 |
+| raystyle/mac-daily | 本机日常操作与部署日志（`~/Documents/mac-daily`） |
 
 产物路径：`~/intel-daily/YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`
 
