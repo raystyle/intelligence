@@ -59,7 +59,7 @@
 | 仓库 | 内容 |
 |------|------|
 | raystyle/intelligence | 技能源码与契约 |
-| raystyle/intel-daily | 情报每日记录产物（`~/Documents/intel-daily` · 按日目录） |
+| raystyle/intel-daily | intelligence skill 每日记录产物（`~/Documents/intel-daily` · 按日目录） |
 | raystyle/mac-daily | Mac 智能体每日操作与部署记录产物（`~/Documents/mac-daily`） |
 
 产物路径：`~/Documents/intel-daily/YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`

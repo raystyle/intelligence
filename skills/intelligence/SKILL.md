@@ -19,13 +19,13 @@ metadata:
 产出可扫读的**中文中立简报**。
 
 本技能维护于 `raystyle/intelligence`（源码）。  
-**情报产物**写入每日记录仓库 **`~/Documents/intel-daily`**（远程 `raystyle/intel-daily`），与 `mac-daily`（Mac 智能体每日操作与部署记录）分离。
+**每日记录产物**写入 **`~/Documents/intel-daily`**（远程 `raystyle/intel-daily`），与 `mac-daily`（Mac 智能体每日操作与部署记录产物）分离。
 
 按本文件执行，需要时读 `references/`。
 
 ## 产物落盘（必做）
 
-每次完整简报在回复用户的同时，**写入本地文件**（便于 git 同步）：
+每次完整简报在回复用户的同时，**写入本地文件**（intelligence skill 每日记录产物，便于 git 同步）：
 
 ```text
 ~/Documents/intel-daily/YYYY-MM-DD/{security|tech|hybrid}/{slug}.md
