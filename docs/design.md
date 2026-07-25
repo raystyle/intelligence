@@ -54,12 +54,15 @@
 4. 缺口诚实：版本区间冲突、KEV 滞后、样本偏倚。  
 5. 可执行处置：升级路径、临时缓解、检测方向。  
 
-## 与 mac-note 分工
+## 与其它仓库分工
 
 | 仓库 | 内容 |
 |------|------|
+| raystyle/intelligence | 技能源码与契约 |
+| raystyle/intel-daily | 每日情报产物（按日目录） |
 | raystyle/mac-note | 本机日常操作与部署日志 |
-| raystyle/intelligence | 对外/通用的情报分析 skill 与文档 |
+
+产物路径：`~/intel-daily/YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`
 
 ## 完善路线（未做完可继续）
 

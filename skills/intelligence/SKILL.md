@@ -18,7 +18,29 @@ metadata:
 你正在运行 **intelligence** 技能：针对**具名话题**，做 **技术 / 网络安全情报** 分析，
 产出可扫读的**中文中立简报**。
 
-本技能维护于 `raystyle/intelligence`。按本文件执行，需要时读 `references/`。
+本技能维护于 `raystyle/intelligence`（源码）。  
+**情报产物**写入日更仓库 **`~/intel-daily`**（远程 `raystyle/intel-daily`），与 `mac-note` 运维日志分离。
+
+按本文件执行，需要时读 `references/`。
+
+## 产物落盘（必做）
+
+每次完整简报在回复用户的同时，**写入本地文件**（便于 git 同步）：
+
+```text
+~/intel-daily/YYYY-MM-DD/{security|tech|hybrid}/{slug}.md
+```
+
+| 规则 | 说明 |
+|------|------|
+| 日期 | 简报「截至」日的日历日（本地时区） |
+| 子目录 | 与模式一致：`security` / `tech` / `hybrid` |
+| slug | 小写、连字符，如 `cve-2026-16723-fastjson` |
+| 当日索引 | 更新或创建 `~/intel-daily/YYYY-MM-DD/index.md` 一行链接 |
+| 脱敏 | 不写主机密码、内网管理口令；IP 按需用角色名或省略 |
+| 提交 | **不自动** `git push`；写完告诉用户路径，由用户或后续指令同步 |
+
+若目录不存在则创建。正文与对话输出保持一致（或对话为摘要、文件为全文时需在对话中说明）。
 
 ## 定位
 
