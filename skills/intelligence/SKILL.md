@@ -82,6 +82,7 @@ metadata:
 | slug | 小写、连字符；如 `cve-2026-16723-fastjson`、`kimi-k3-launch` |
 | 当日索引 | **必更新** `YYYY-MM-DD/index.md`：类型 · 相对链接 · 一句话话题 |
 | 正文 | 与对话交付内容一致；对话若是摘要，文件写全文 |
+| Markdown | 少嵌套加粗；英文专名用 `` `code` ``，勿写 `**中文（english words）**`（部分渲染器会断） |
 | 脱敏 | 不写主机密码、内网管理口令；IP 按需用角色名或省略 |
 
 `index.md` 建议骨架：
