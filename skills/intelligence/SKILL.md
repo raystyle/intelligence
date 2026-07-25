@@ -23,21 +23,28 @@ metadata:
 
 按本文件执行，需要时读 `references/`。
 
-## 产物：生成与仓库更新
+## 产物：生成与同步（有结论 → 必产物 + 必同步）
 
-本技能**不**做无定时日更热榜**；产物随每次完整简报**按次生成**，按**日历日目录**归档。  
-本地写完即完成「生成」；远程仓库更新见下文「同步远程」。
+**硬规则：一次情报交互只要已经形成结论（完整简报或「结论 + 关键要点」），就必须：**
 
-### 1 · 何时生成
+1. **写产物**（本地落盘 + 更新当日 index）  
+2. **同步产物仓库**（`git commit` + `git push` 到 `raystyle/intel-daily`）  
+3. 在回复文末报告：本地路径 + 远程同步结果（commit 短 hash）
+
+本技能**不**做无定时日更热榜**；按**交互结束有结论**触发，按**日历日目录**归档。
+
+### 1 · 何时必须 / 可以不做
 
 | 时机 | 动作 |
 |------|------|
-| 用户跑 `/intelligence <话题>` 且产出**完整简报** | **必做**：落盘 + 更新当日 index |
-| 仅追问/半成品/用户明确「只要口头、别落盘」 | 可不写文件 |
-| 同一话题同日有实质更新（新补丁/KEV/官方更正） | **覆盖**同 slug，或新开 `{slug}-update.md` 并在 index 注明 |
-| 用户说「同步 intel-daily / 推送产物 / push」 | 执行 **§3 同步远程**（此前未提交的本地改动一并纳入） |
+| 本轮已对具名话题给出**结论**（含完整简报、「只要结论」、hybrid 收口） | **必做**：落盘 → index → **立即 commit + push** |
+| 同一话题同日有实质更新（新补丁/KEV/官方更正）且再次给出结论 | **覆盖**同 slug（或 `{slug}-update.md`）→ 再同步 |
+| 仅澄清问题、要用户补话题、工具失败未形成结论 | **不**写产物、**不** push |
+| 用户明确「只要口头、别落盘 / 别 push」 | 遵从用户，并在回复注明「未落盘/未同步」 |
 
-### 2 · 本地落盘（必做）
+默认**不要**等用户再说「同步」——有结论就同步。
+
+### 2 · 本地落盘
 
 路径：
 
@@ -52,9 +59,8 @@ metadata:
 | 子目录 | 与模式一致：`security` / `tech` / `hybrid`；缺则 `mkdir -p` |
 | slug | 小写、连字符；如 `cve-2026-16723-fastjson`、`kimi-k3-launch` |
 | 当日索引 | **必更新** `YYYY-MM-DD/index.md`：类型 · 相对链接 · 一句话话题 |
-| 正文 | 与对话完整简报一致；若对话是摘要，文件写全文并在对话说明 |
+| 正文 | 与对话交付内容一致；对话若是摘要，文件写全文 |
 | 脱敏 | 不写主机密码、内网管理口令；IP 按需用角色名或省略 |
-| 回复用户 | 文末给出**绝对路径**（及是否仅本地、未 push） |
 
 `index.md` 建议骨架：
 
@@ -69,11 +75,9 @@ metadata:
 技能：`/intelligence` · 仓库：`raystyle/intel-daily`
 ```
 
-### 3 · 同步远程（产物仓库更新）
+### 3 · 同步远程（每次有结论后立即执行）
 
-**默认：只写本地，不 `git commit` / 不 `git push`。**
-
-仅当用户明确要求同步/推送/更新远程时执行（同义：「同步 intel-daily」「push 产物」「提交日报」）：
+落盘成功后**马上**执行（同一轮回复内完成）：
 
 ```bash
 cd ~/Documents/intel-daily
@@ -86,18 +90,16 @@ git push origin main
 | 规则 | 说明 |
 |------|------|
 | 工作目录 | 必须在 `~/Documents/intel-daily`，勿提交 skill 源码仓 `~/intelligence` |
-| message | `intel: YYYY-MM-DD …`（可多个 slug 逗号分隔） |
-| 无变更 | `git status` 干净则告知「无待同步」，勿空 commit |
-| 冲突/失败 | 报告错误与 `git status`，不强推、不 `reset --hard` |
-| 成功后 | 回报：commit 短 hash、分支、远程 URL |
-
-用户若说「只 commit 不 push」：做到 `git commit` 为止。  
-用户若说「先看将提交什么」：只 `git status` / `git diff`，等确认再 commit/push。
+| message | `intel: YYYY-MM-DD …` |
+| 顺序 | 先写文件与 index → 再 commit → 再 push → 再向用户收口 |
+| 无变更 | 理论上不应发生；若干净则说明原因 |
+| 冲突/失败 | 报告错误与 `git status`；**不强推**、不 `reset --hard`；本地文件仍保留 |
+| 成功后 | 回报：绝对路径 + commit 短 hash + `https://github.com/raystyle/intel-daily` |
 
 ### 4 · 不做
 
 - 不自动定时扫描「今日全网热点」写一堆文件  
-- 不在每次简报后静默 push  
+- 不在**无结论**时写空壳产物  
 - 不修改 `raystyle/intelligence` 源码仓来存简报  
 - 不把 mac 运维日志写入 intel-daily  
 
@@ -193,6 +195,11 @@ git push origin main
 
 按模式选用模板。网络安全必须有 **影响与处置**；前沿技术必须有 **发生了什么 / 关键点**；有 X 样本才写舆论节。
 
+### 4 · 产物与同步（有结论时）
+
+形成结论后**同一轮**完成：落盘 → 更新 index → `commit` + `push` intel-daily → 文末报告路径与 hash。  
+未形成结论（仅追问）则跳过本步。
+
 ## 输出模板
 
 ### A. 网络安全情报（security）
@@ -275,18 +282,17 @@ git push origin main
 - [ ] 无 payload  
 - [ ] 中文可读  
 - [ ] Gaps 诚实  
-- [ ] **完整简报已落盘**（路径 + 当日 index）；或用户明确免落盘  
-- [ ] **未擅自 push**；若用户要求同步，已按 §3 完成并回报 hash  
+- [ ] **有结论** → 已落盘（路径 + 当日 index）  
+- [ ] **有结论** → 已 `commit` + `push` intel-daily，文末有路径与 hash  
+- [ ] 无结论（仅追问）→ 未写空产物  
 
 ## 触发示例
 
 | 用户 | 动作 |
 |------|------|
-| `/intelligence CVE-2026-16723` | security · 网络安全 |
-| `/intelligence 最新 SharePoint 在野` | security · 网络安全 |
-| `/intelligence Kimi K3` | tech · 前沿技术（或 hybrid） |
-| 「0day / fastjson / KEV」 | security · 网络安全 |
-| 「X 热什么」 | 追问具体话题 |
-| 「最近 0day」无具体名 | 可先 web/X 列 **2–5 条候选** 再请用户点选深入（不算 discovery 热榜全文） |
-| 「同步 intel-daily / 推送产物」 | 按 **§3** commit + push，回报 hash |
-| 「只 commit 不 push」 | 仅本地 commit |
+| `/intelligence CVE-2026-16723` | security · 有结论 → 落盘 + 同步 |
+| `/intelligence 最新 SharePoint 在野` | security · 有结论 → 落盘 + 同步 |
+| `/intelligence Kimi K3` | tech · 有结论 → 落盘 + 同步 |
+| 「0day / fastjson / KEV」 | security · 有结论 → 落盘 + 同步 |
+| 「X 热什么」 | 追问具体话题 · **不同步** |
+| 「最近 0day」无具体名 | 列 2–5 候选请点选 · **点选并出结论后再**落盘 + 同步 |
