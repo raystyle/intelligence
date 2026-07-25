@@ -1,0 +1,13 @@
+.DS_Store
+**/.DS_Store
+*.bak
+*~
+.idea/
+.vscode/
+*.swp
+.env
+.env.*
+secrets/
+private/
+*.pem
+*.key
