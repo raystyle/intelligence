@@ -5,11 +5,18 @@ description: >
   模型与产品突破、关键基础设施，以及 X 公开讨论。使用 /intelligence 或用户问
   「最新漏洞/0day/前沿技术/X 上怎么看/情报」时启用。Grok Build：X 工具 + web 工具。
   中英检索、事实与舆论分栏。不做攻击教程、不编造 CVE/帖子。
+license: MIT
+compatibility: >
+  Best on Grok Build (web_search/web_fetch + native X tools). Other agents can install
+  the package; full X opinion maps need X tools. Product archive expects git write access
+  to ~/Documents/intel-daily (raystyle/intel-daily).
 metadata:
   short-description: "网络安全与前沿技术情报中文简报"
   language: zh-CN
-  owner: raystyle
+  author: raystyle
+  version: "1.0.0"
   repo: https://github.com/raystyle/intelligence
+  products: https://github.com/raystyle/intel-daily
   based-on: "kunchenguid/whathappened (heavily adapted)"
 ---
 

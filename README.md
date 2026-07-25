@@ -5,52 +5,87 @@ Grok Build 技能：**网络安全情报**与**前沿技术情报**中文中立�
 | | |
 |--|--|
 | 技能 | `/intelligence` |
-| 本地 | `~/intelligence` |
-| 远程 | https://github.com/raystyle/intelligence |
-| 运行时 | `~/.grok/skills/intelligence` → `skills/intelligence` |
+| 源码 | https://github.com/raystyle/intelligence |
 | 产物 | https://github.com/raystyle/intel-daily · `~/Documents/intel-daily` |
+| 规范 | [Agent Skills](https://agentskills.io) · `skills/*/SKILL.md` |
 
-## 做什么
+## 安装（`gh skill`）
+
+需 [GitHub CLI](https://cli.github.com/) 且已登录（`gh auth login`）。
+
+### 发现
+
+```bash
+# 列出本仓库技能
+gh skill install raystyle/intelligence
+
+# 预览内容
+gh skill preview raystyle/intelligence intelligence
+```
+
+### 装到 Grok Build（推荐 · 用户级）
+
+当前 `gh skill` 尚无独立 `grok` agent 名，装到 Grok 原生目录用 `--dir`：
+
+```bash
+gh skill install raystyle/intelligence intelligence \
+  --dir ~/.grok/skills \
+  --force
+```
+
+装好后目录应为：
 
 ```text
-/intelligence <话题>
+~/.grok/skills/intelligence/SKILL.md
+~/.grok/skills/intelligence/references/...
+```
+
+在 Grok 中：
+
+```text
 /intelligence CVE-2026-16723
 /intelligence Kimi K3
 ```
 
-或自然语言：「最新 SharePoint 在野」「某某模型刚发布 X 上怎么看」。
+### 其它宿主 / 作用域
 
-双主线：
+```bash
+# 项目级（写入当前仓库 .agents/skills 等，视 --agent 而定）
+gh skill install raystyle/intelligence intelligence --scope project
 
-1. **网络安全情报** — CVE / 在野 / KEV / 厂商通告 / 可执行处置  
-2. **前沿技术情报** — 模型·产品突破、关键能力与边界、关键基础设施  
+# 指定 agent（示例）
+gh skill install raystyle/intelligence intelligence --agent claude-code --scope user
+gh skill install raystyle/intelligence intelligence --agent cursor --scope user
 
-输出中文简报：结论、事实、舆论（若有 X 样本）、权威回执与缺口。  
-**有结论 → 必落盘 + 必同步** 到 `intel-daily`（详见 skill 契约）。
+# 装本仓库全部技能（目前仅 intelligence）
+gh skill install raystyle/intelligence --all --dir ~/.grok/skills --force
+```
 
-## 安装（本机）
+### 更新
+
+```bash
+gh skill update intelligence
+# 或
+gh skill install raystyle/intelligence intelligence --dir ~/.grok/skills --force
+```
+
+### 开发机：本地源码 symlink（改完即生效）
 
 ```bash
 mkdir -p ~/.grok/skills
 ln -sfn ~/intelligence/skills/intelligence ~/.grok/skills/intelligence
 ```
 
-## 布局
+与 `gh skill install` 二选一；symlink 便于改契约，`gh skill` 便于干净安装与 `gh skill update`。
 
-```text
-skills/intelligence/
-  SKILL.md                 # 主契约（Agent 执行）
-  references/
-    query-patterns.md      # X / 关键词检索
-    security-sources.md    # 网络安全权威源
-    tech-sources.md        # 前沿技术信源
-    failure-modes.md       # 失败模式
-docs/
-  design.md                # 设计要点（人读，非运行时）
-examples/
-  brief-security.md        # 网络安全简报骨架
-  brief-tech.md            # 前沿技术简报骨架
-```
+## 做什么
+
+双主线：
+
+1. **网络安全情报** — CVE / 在野 / KEV / 厂商通告 / 可执行处置  
+2. **前沿技术情报** — 模型·产品突破、关键能力与边界、关键基础设施  
+
+**有结论 → 必落盘 + 必同步** 到 `intel-daily`（见 skill 契约）。
 
 ## 产物约定
 
@@ -59,31 +94,39 @@ examples/
 ~/Documents/intel-daily/YYYY-MM-DD/index.md
 ```
 
-| 规则 | 说明 |
-|------|------|
-| 触发 | 一次情报交互**形成结论**时 |
-| 动作 | 写文件 → 更新 index → `git commit` + `git push` intel-daily |
-| 例外 | 仅追问无结论；或用户明确免落盘/免 push |
+使用产物同步前请先准备：
 
-技能源码仓（本仓库）与产物仓分离：简报**不**写入 `raystyle/intelligence`。
+```bash
+# 若尚未克隆产物仓
+git clone https://github.com/raystyle/intel-daily.git ~/Documents/intel-daily
+```
 
-## 与上游
+## 布局
 
-灵感来自 [kunchenguid/whathappened](https://github.com/kunchenguid/whathappened)，定位不同：
+```text
+skills/intelligence/          # ← gh skill 发现的技能包
+  SKILL.md
+  references/
+    query-patterns.md
+    security-sources.md
+    tech-sources.md
+    failure-modes.md
+docs/design.md                # 人读设计要点（非运行时）
+examples/                     # 简报骨架示例
+```
 
-- 覆盖网络安全事实 + 前沿技术，不止 X 舆论  
-- 安全事实优先权威 Web（CISA / NVD / 厂商）  
-- 中文输出、中英检索、事实与舆论分栏  
-
-## 开发
+## 发布校验
 
 ```bash
 cd ~/intelligence
-$EDITOR skills/intelligence/SKILL.md
-git add -A && git status
-git commit -m "..."
-git push origin main
+gh skill publish --dry-run    # 校验 Agent Skills 规范
+# 正式发版（打 tag + Release）：
+# gh skill publish --tag v1.0.0
 ```
+
+## 与上游
+
+灵感来自 [kunchenguid/whathappened](https://github.com/kunchenguid/whathappened)，定位不同：覆盖网络安全事实 + 前沿技术；安全事实优先权威 Web。
 
 ## 许可
 
