@@ -8,7 +8,8 @@
 |--|--|
 | 名称 | intelligence · `/intelligence` |
 | 源码 | `raystyle/intelligence` |
-| 产物 | `raystyle/intel-daily` · `~/Documents/intel-daily` |
+| 产物远程 | `raystyle/intel-daily` |
+| 产物本机 | `~/Documents/intel-daily`（本地 clone 约定，可改） |
 | 宿主 | Grok Build（web + X 工具） |
 
 双主线：**网络安全情报**、**前沿技术情报**（可 hybrid）。
@@ -27,11 +28,12 @@
 
 有结论的交互结束 → **必产物 + 必同步**（同一轮）：
 
-1. 写 `YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`  
+1. 在本机产物目录写 `YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`  
 2. 更新当日 `index.md`  
-3. 在 `~/Documents/intel-daily`：`commit` + `push`  
+3. 在该目录 `commit` + `push` 到 `raystyle/intel-daily`  
 4. 回复报告路径与 commit hash  
 
+本机目录默认 `~/Documents/intel-daily`（**本机设置**的远程仓 clone，可用 `INTEL_DAILY_ROOT` 覆盖）。  
 无结论（仅追问）或用户明确免落盘/免 push → 跳过。
 
 ## 安全边界
@@ -46,6 +48,6 @@
 | 仓库 | 内容 |
 |------|------|
 | intelligence | 技能源码与契约（本仓） |
-| intel-daily | 每日记录产物 |
+| intel-daily | 每日记录产物（远程）；本机 clone 路径自定 |
 
-简报只进 intel-daily，不进本仓。
+简报只进产物仓，不进本仓。

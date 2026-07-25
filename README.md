@@ -6,7 +6,8 @@ Grok Build 技能：**网络安全情报**与**前沿技术情报**中文中立�
 |--|--|
 | 技能 | `/intelligence` |
 | 源码 | https://github.com/raystyle/intelligence |
-| 产物 | https://github.com/raystyle/intel-daily · `~/Documents/intel-daily` |
+| 产物远程 | https://github.com/raystyle/intel-daily |
+| 产物本机目录 | `~/Documents/intel-daily`（**本机自己设的** clone 路径，非通用安装目录） |
 | 规范 | [Agent Skills](https://agentskills.io) · `skills/*/SKILL.md` |
 
 ## 安装（`gh skill`）
@@ -85,22 +86,31 @@ ln -sfn ~/intelligence/skills/intelligence ~/.grok/skills/intelligence
 1. **网络安全情报** — CVE / 在野 / KEV / 厂商通告 / 可执行处置  
 2. **前沿技术情报** — 模型·产品突破、关键能力与边界、关键基础设施  
 
-**有结论 → 必落盘 + 必同步** 到 `intel-daily`（见 skill 契约）。
+**有结论 → 必落盘 + 必同步** 到产物仓（见 skill 契约）。
 
 ## 产物约定
 
+| | |
+|--|--|
+| 远程 | `raystyle/intel-daily`（简报真正同步到的 GitHub 仓） |
+| 本机目录 | `~/Documents/intel-daily` — **本工作区本地设置**：把远程仓 clone 到这里，便于和 `mac-daily` 一样放在 `~/Documents` 下按日归档 |
+| 可覆盖 | 环境变量 `INTEL_DAILY_ROOT` = 任意本地 clone 路径 |
+
+目录形态：
+
 ```text
-~/Documents/intel-daily/YYYY-MM-DD/{security|tech|hybrid}/{slug}.md
-~/Documents/intel-daily/YYYY-MM-DD/index.md
+${INTEL_DAILY_ROOT:-~/Documents/intel-daily}/
+  YYYY-MM-DD/
+    security|tech|hybrid/{slug}.md
+    index.md
 ```
 
-使用产物同步前请先准备：
+本机首次准备（路径可自选，与 skill 默认一致即可）：
 
 ```bash
-# 若尚未克隆产物仓
+# 本机约定路径示例（可改成你喜欢的目录，并 export INTEL_DAILY_ROOT=...）
 git clone https://github.com/raystyle/intel-daily.git ~/Documents/intel-daily
 ```
-
 ## 布局
 
 ```text

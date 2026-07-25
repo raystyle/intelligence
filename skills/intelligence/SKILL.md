@@ -8,15 +8,16 @@ description: >
 license: MIT
 compatibility: >
   Best on Grok Build (web_search/web_fetch + native X tools). Other agents can install
-  the package; full X opinion maps need X tools. Product archive expects git write access
-  to ~/Documents/intel-daily (raystyle/intel-daily).
+  the package; full X opinion maps need X tools. Product sync needs a local git clone of
+  raystyle/intel-daily (this workspace uses ~/Documents/intel-daily as that clone path).
 metadata:
   short-description: "网络安全与前沿技术情报中文简报"
   language: zh-CN
   author: raystyle
-  version: "1.0.0"
+  version: "1.0.1"
   repo: https://github.com/raystyle/intelligence
   products: https://github.com/raystyle/intel-daily
+  products-local: ~/Documents/intel-daily
   based-on: "kunchenguid/whathappened (heavily adapted)"
 ---
 
@@ -26,17 +27,29 @@ metadata:
 **前沿技术情报** 分析，产出可扫读的**中文中立简报**。
 
 本技能维护于 `raystyle/intelligence`（源码）。  
-**每日记录产物**写入 **`~/Documents/intel-daily`**（远程 `raystyle/intel-daily`）。
+**每日记录产物**远程仓：`raystyle/intel-daily`。  
+**本机工作副本**（我们自己设的本地产物目录）：`~/Documents/intel-daily`。
 
 按本文件执行，需要时读 `references/`。
 
 ## 产物：生成与同步（有结论 → 必产物 + 必同步）
 
+### 本地目录说明（先读）
+
+| | |
+|--|--|
+| **远程产物仓** | https://github.com/raystyle/intel-daily（权威；同步目标） |
+| **本机产物目录** | `~/Documents/intel-daily` — **仅本工作区约定**，是上述远程仓的本地 clone 路径，**不是** skill 通用安装路径，也不是 Grok/gh 自带目录 |
+| **换机/他人** | 可把 clone 放在任意路径；改本 skill 中的本地路径或设环境变量 `INTEL_DAILY_ROOT` 后按该根目录落盘与 git 操作 |
+| **默认解析** | 若存在 `INTEL_DAILY_ROOT` 且为目录则用之；否则用本机约定 `~/Documents/intel-daily` |
+
+下文凡写 `INTEL_DAILY` 均指上述解析后的本地根目录。
+
 **硬规则：一次情报交互只要已经形成结论（完整简报或「结论 + 关键要点」），就必须：**
 
-1. **写产物**（本地落盘 + 更新当日 index）  
-2. **同步产物仓库**（`git commit` + `git push` 到 `raystyle/intel-daily`）  
-3. 在回复文末报告：本地路径 + 远程同步结果（commit 短 hash）
+1. **写产物**（在 `INTEL_DAILY` 落盘 + 更新当日 index）  
+2. **同步产物仓库**（在 `INTEL_DAILY` 内 `git commit` + `git push` → `origin` / `raystyle/intel-daily`）  
+3. 在回复文末报告：本地绝对路径 + 远程同步结果（commit 短 hash）
 
 本技能**不**做定时热榜扫描；按**交互结束有结论**触发，按**日历日目录**归档。
 
@@ -53,15 +66,17 @@ metadata:
 
 ### 2 · 本地落盘
 
-路径：
+路径（本机默认）：
 
 ```text
 ~/Documents/intel-daily/YYYY-MM-DD/{security|tech|hybrid}/{slug}.md
+# 即 ${INTEL_DAILY}/YYYY-MM-DD/{security|tech|hybrid}/{slug}.md
 ```
 
 | 规则 | 说明 |
 |------|------|
-| 仓库根 | `~/Documents/intel-daily`（git · `raystyle/intel-daily`） |
+| 本地根 | **本机约定** `~/Documents/intel-daily`（或 `INTEL_DAILY_ROOT`）；须为 `raystyle/intel-daily` 的 git 工作树 |
+| 远程 | `origin` → `raystyle/intel-daily` |
 | 日期 | 简报「截至」日的日历日（本地时区）；跨日续写用新日期目录 |
 | 子目录 | 与模式一致：`security` / `tech` / `hybrid`；缺则 `mkdir -p` |
 | slug | 小写、连字符；如 `cve-2026-16723-fastjson`、`kimi-k3-launch` |
@@ -79,15 +94,15 @@ metadata:
 | security | [slug.md](./security/slug.md) | … |
 | tech | [slug.md](./tech/slug.md) | … |
 
-技能：`/intelligence` · 仓库：`raystyle/intel-daily`
+技能：`/intelligence` · 远程：`raystyle/intel-daily`
 ```
 
 ### 3 · 同步远程（每次有结论后立即执行）
 
-落盘成功后**马上**执行（同一轮回复内完成）：
+落盘成功后**马上**在**本机产物目录**执行（同一轮回复内完成）：
 
 ```bash
-cd ~/Documents/intel-daily
+cd ~/Documents/intel-daily   # 本机约定；或 cd "$INTEL_DAILY_ROOT"
 git status
 git add -A
 git commit -m "intel: YYYY-MM-DD {slug 或简述}"
@@ -96,19 +111,20 @@ git push origin main
 
 | 规则 | 说明 |
 |------|------|
-| 工作目录 | 必须在 `~/Documents/intel-daily`，勿提交 skill 源码仓 `~/intelligence` |
+| 工作目录 | 必须在本机产物目录（`INTEL_DAILY`），**勿**提交 skill 源码仓 |
 | message | `intel: YYYY-MM-DD …` |
 | 顺序 | 先写文件与 index → 再 commit → 再 push → 再向用户收口 |
 | 无变更 | 理论上不应发生；若干净则说明原因 |
 | 冲突/失败 | 报告错误与 `git status`；**不强推**、不 `reset --hard`；本地文件仍保留 |
-| 成功后 | 回报：绝对路径 + commit 短 hash + `https://github.com/raystyle/intel-daily` |
+| 成功后 | 回报：本地绝对路径 + commit 短 hash + `https://github.com/raystyle/intel-daily` |
 
 ### 4 · 不做
 
 - 不自动定时扫描「今日全网热点」写一堆文件  
 - 不在**无结论**时写空壳产物  
 - 不修改 `raystyle/intelligence` 源码仓来存简报  
-- 不把运维/主机日志写入 intel-daily（产物仓只放情报简报）  
+- 不把运维/主机日志写入产物目录（产物仓只放情报简报）  
+- 不把 `~/Documents/intel-daily` 写成「全局标准安装路径」；它只是本机 clone 位置  
 
 ## 定位
 
