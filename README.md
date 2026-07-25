@@ -55,7 +55,7 @@ examples/
 | 仓库 | 本地 | 用途 | 同步 |
 |------|------|------|------|
 | **intelligence** | `~/intelligence` | 技能源码与契约（`/intelligence`） | 暂不同步 |
-| **intel-daily** | `~/intel-daily` | 每日情报**产物** `YYYY-MM-DD/{security\|tech\|hybrid}/` | 与远程同步 |
+| **intel-daily** | `~/Documents/intel-daily` | 每日情报**产物** `YYYY-MM-DD/{security\|tech\|hybrid}/` | 与远程同步 |
 | **mac-daily** | `~/Documents/mac-daily` | 本机运维与部署日志 | 与远程同步 |
 
 产物约定与 grok-workspace / mac-daily 一样按**日期目录**落盘；技能写完简报后告知路径，**不自动** `git push`。
