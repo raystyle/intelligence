@@ -40,7 +40,7 @@ The Hacker News、Dark Reading、SecurityWeek、BleepingComputer、SOC Prime 等
 4. 1–2 家应急通告（缓解步骤）  
 5. 可选：X 上 `CVE-…` / 组件名 Latest（舆论与最早传播）
 
-## 写入简报时的固定字段
+## 写入每日记录产物时的固定字段
 
 - 影响版本（多源不一致则并列）  
 - 攻击前提（认证、默认配置、出网、用户交互）  

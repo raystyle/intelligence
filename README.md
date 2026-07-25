@@ -1,6 +1,6 @@
 # intelligence
 
-Grok Build 技能：**网络安全情报**与**前沿技术情报**中文中立简报。
+Grok Build 技能：**网络安全情报**与**前沿技术情报**中文中立每日记录产物。
 
 | | |
 |--|--|
@@ -92,7 +92,7 @@ ln -sfn ~/intelligence/skills/intelligence ~/.grok/skills/intelligence
 
 | | |
 |--|--|
-| 远程 | `raystyle/intel-daily`（简报真正同步到的 GitHub 仓） |
+| 远程 | `raystyle/intel-daily`（每日记录产物真正同步到的 GitHub 仓） |
 | 本机目录 | `~/Documents/intel-daily` — **本工作区本地设置**：把远程仓 clone 到这里，便于和 `mac-daily` 一样放在 `~/Documents` 下按日归档 |
 | 可覆盖 | 环境变量 `INTEL_DAILY_ROOT` = 任意本地 clone 路径 |
 
@@ -122,7 +122,7 @@ skills/intelligence/          # ← gh skill 发现的技能包
     tech-sources.md
     failure-modes.md
 docs/design.md                # 人读设计要点（非运行时）
-examples/                     # 简报骨架示例
+examples/                     # 每日记录产物骨架示例
 ```
 
 ## 发布校验

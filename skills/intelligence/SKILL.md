@@ -1,7 +1,7 @@
 ---
 name: intelligence
 description: >
-  分析最新网络安全情报与前沿技术情报，输出中文中立简报。覆盖 CVE/在野利用/厂商通告、
+  分析最新网络安全情报与前沿技术情报，输出中文中立每日记录产物。覆盖 CVE/在野利用/厂商通告、
   模型与产品突破、关键基础设施，以及 X 公开讨论。使用 /intelligence 或用户问
   「最新漏洞/0day/前沿技术/X 上怎么看/情报」时启用。Grok Build：X 工具 + web 工具。
   中英检索、事实与舆论分栏。不做攻击教程、不编造 CVE/帖子。
@@ -11,7 +11,7 @@ compatibility: >
   the package; full X opinion maps need X tools. Product sync needs a local git clone of
   raystyle/intel-daily (this workspace uses ~/Documents/intel-daily as that clone path).
 metadata:
-  short-description: "网络安全与前沿技术情报中文简报"
+  short-description: "网络安全与前沿技术情报每日记录产物"
   language: zh-CN
   author: raystyle
   version: "1.0.1"
@@ -24,7 +24,7 @@ metadata:
 # /intelligence
 
 你正在运行 **intelligence** 技能：针对**具名话题**，做 **网络安全情报** 与
-**前沿技术情报** 分析，产出可扫读的**中文中立简报**。
+**前沿技术情报** 分析，产出可扫读的**中文中立每日记录产物**。
 
 本技能维护于 `raystyle/intelligence`（源码）。  
 **每日记录产物**远程仓：`raystyle/intel-daily`。  
@@ -45,7 +45,7 @@ metadata:
 
 下文凡写 `INTEL_DAILY` 均指上述解析后的本地根目录。
 
-**硬规则：一次情报交互只要已经形成结论（完整简报或「结论 + 关键要点」），就必须：**
+**硬规则：一次情报交互只要已经形成结论（完整每日记录产物或「结论 + 关键要点」），就必须：**
 
 1. **写产物**（在 `INTEL_DAILY` 落盘 + 更新当日 index）  
 2. **同步产物仓库**（在 `INTEL_DAILY` 内 `git commit` + `git push` → `origin` / `raystyle/intel-daily`）  
@@ -57,7 +57,7 @@ metadata:
 
 | 时机 | 动作 |
 |------|------|
-| 本轮已对具名话题给出**结论**（含完整简报、「只要结论」、hybrid 收口） | **必做**：落盘 → index → **立即 commit + push** |
+| 本轮已对具名话题给出**结论**（含完整每日记录产物、「只要结论」、hybrid 收口） | **必做**：落盘 → index → **立即 commit + push** |
 | 同一话题同日有实质更新（新补丁/KEV/官方更正）且再次给出结论 | **覆盖**同 slug（或 `{slug}-update.md`）→ 再同步 |
 | 仅澄清问题、要用户补话题、工具失败未形成结论 | **不**写产物、**不** push |
 | 用户明确「只要口头、别落盘 / 别 push」 | 遵从用户，并在回复注明「未落盘/未同步」 |
@@ -77,7 +77,7 @@ metadata:
 |------|------|
 | 本地根 | **本机约定** `~/Documents/intel-daily`（或 `INTEL_DAILY_ROOT`）；须为 `raystyle/intel-daily` 的 git 工作树 |
 | 远程 | `origin` → `raystyle/intel-daily` |
-| 日期 | 简报「截至」日的日历日（本地时区）；跨日续写用新日期目录 |
+| 日期 | 记录「截至」日的日历日（本地时区）；跨日续写用新日期目录 |
 | 子目录 | 与模式一致：`security` / `tech` / `hybrid`；缺则 `mkdir -p` |
 | slug | 小写、连字符；如 `cve-2026-16723-fastjson`、`kimi-k3-launch` |
 | 当日索引 | **必更新** `YYYY-MM-DD/index.md`：类型 · 相对链接 · 一句话话题 |
@@ -122,8 +122,8 @@ git push origin main
 
 - 不自动定时扫描「今日全网热点」写一堆文件  
 - 不在**无结论**时写空壳产物  
-- 不修改 `raystyle/intelligence` 源码仓来存简报  
-- 不把运维/主机日志写入产物目录（产物仓只放情报简报）  
+- 不修改 `raystyle/intelligence` 源码仓来存每日记录产物  
+- 不把运维/主机日志写入产物目录（产物仓只放情报每日记录产物）  
 - 不把 `~/Documents/intel-daily` 写成「全局标准安装路径」；它只是本机 clone 位置  
 
 ## 定位
@@ -164,7 +164,7 @@ git push origin main
 - `x_thread_fetch`
 - `x_user_search`
 
-若用户只要安全事实且无 X 工具：可做 **仅权威 Web** 的 security 简报，并在文首声明「无 X 样本」。  
+若用户只要安全事实且无 X 工具：可做 **仅权威 Web** 的 security 每日记录产物，并在文首声明「无 X 样本」。  
 若用户要舆论但无 X 工具：**停止舆论部分**，勿用网页假扮。
 
 ## 硬规则
