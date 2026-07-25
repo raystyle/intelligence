@@ -23,9 +23,23 @@ metadata:
 
 按本文件执行，需要时读 `references/`。
 
-## 产物落盘（必做）
+## 产物：生成与仓库更新
 
-每次完整简报在回复用户的同时，**写入本地文件**（intelligence skill 每日记录产物，便于 git 同步）：
+本技能**不**做无定时日更热榜**；产物随每次完整简报**按次生成**，按**日历日目录**归档。  
+本地写完即完成「生成」；远程仓库更新见下文「同步远程」。
+
+### 1 · 何时生成
+
+| 时机 | 动作 |
+|------|------|
+| 用户跑 `/intelligence <话题>` 且产出**完整简报** | **必做**：落盘 + 更新当日 index |
+| 仅追问/半成品/用户明确「只要口头、别落盘」 | 可不写文件 |
+| 同一话题同日有实质更新（新补丁/KEV/官方更正） | **覆盖**同 slug，或新开 `{slug}-update.md` 并在 index 注明 |
+| 用户说「同步 intel-daily / 推送产物 / push」 | 执行 **§3 同步远程**（此前未提交的本地改动一并纳入） |
+
+### 2 · 本地落盘（必做）
+
+路径：
 
 ```text
 ~/Documents/intel-daily/YYYY-MM-DD/{security|tech|hybrid}/{slug}.md
@@ -33,14 +47,59 @@ metadata:
 
 | 规则 | 说明 |
 |------|------|
-| 日期 | 简报「截至」日的日历日（本地时区） |
-| 子目录 | 与模式一致：`security` / `tech` / `hybrid` |
-| slug | 小写、连字符，如 `cve-2026-16723-fastjson` |
-| 当日索引 | 更新或创建 `~/Documents/intel-daily/YYYY-MM-DD/index.md` 一行链接 |
+| 仓库根 | `~/Documents/intel-daily`（git · `raystyle/intel-daily`） |
+| 日期 | 简报「截至」日的日历日（本地时区）；跨日续写用新日期目录 |
+| 子目录 | 与模式一致：`security` / `tech` / `hybrid`；缺则 `mkdir -p` |
+| slug | 小写、连字符；如 `cve-2026-16723-fastjson`、`kimi-k3-launch` |
+| 当日索引 | **必更新** `YYYY-MM-DD/index.md`：类型 · 相对链接 · 一句话话题 |
+| 正文 | 与对话完整简报一致；若对话是摘要，文件写全文并在对话说明 |
 | 脱敏 | 不写主机密码、内网管理口令；IP 按需用角色名或省略 |
-| 提交 | **不自动** `git push`；写完告诉用户路径，由用户或后续指令同步 |
+| 回复用户 | 文末给出**绝对路径**（及是否仅本地、未 push） |
 
-若目录不存在则创建。正文与对话输出保持一致（或对话为摘要、文件为全文时需在对话中说明）。
+`index.md` 建议骨架：
+
+```markdown
+# YYYY-MM-DD 情报索引
+
+| 类型 | 文件 | 话题 |
+|------|------|------|
+| security | [slug.md](./security/slug.md) | … |
+| tech | [slug.md](./tech/slug.md) | … |
+
+技能：`/intelligence` · 仓库：`raystyle/intel-daily`
+```
+
+### 3 · 同步远程（产物仓库更新）
+
+**默认：只写本地，不 `git commit` / 不 `git push`。**
+
+仅当用户明确要求同步/推送/更新远程时执行（同义：「同步 intel-daily」「push 产物」「提交日报」）：
+
+```bash
+cd ~/Documents/intel-daily
+git status
+git add -A
+git commit -m "intel: YYYY-MM-DD {slug 或简述}"
+git push origin main
+```
+
+| 规则 | 说明 |
+|------|------|
+| 工作目录 | 必须在 `~/Documents/intel-daily`，勿提交 skill 源码仓 `~/intelligence` |
+| message | `intel: YYYY-MM-DD …`（可多个 slug 逗号分隔） |
+| 无变更 | `git status` 干净则告知「无待同步」，勿空 commit |
+| 冲突/失败 | 报告错误与 `git status`，不强推、不 `reset --hard` |
+| 成功后 | 回报：commit 短 hash、分支、远程 URL |
+
+用户若说「只 commit 不 push」：做到 `git commit` 为止。  
+用户若说「先看将提交什么」：只 `git status` / `git diff`，等确认再 commit/push。
+
+### 4 · 不做
+
+- 不自动定时扫描「今日全网热点」写一堆文件  
+- 不在每次简报后静默 push  
+- 不修改 `raystyle/intelligence` 源码仓来存简报  
+- 不把 mac 运维日志写入 intel-daily  
 
 ## 定位
 
@@ -216,6 +275,8 @@ metadata:
 - [ ] 无 payload  
 - [ ] 中文可读  
 - [ ] Gaps 诚实  
+- [ ] **完整简报已落盘**（路径 + 当日 index）；或用户明确免落盘  
+- [ ] **未擅自 push**；若用户要求同步，已按 §3 完成并回报 hash  
 
 ## 触发示例
 
@@ -227,3 +288,5 @@ metadata:
 | 「0day / fastjson / KEV」 | security · 网络安全 |
 | 「X 热什么」 | 追问具体话题 |
 | 「最近 0day」无具体名 | 可先 web/X 列 **2–5 条候选** 再请用户点选深入（不算 discovery 热榜全文） |
+| 「同步 intel-daily / 推送产物」 | 按 **§3** commit + push，回报 hash |
+| 「只 commit 不 push」 | 仅本地 commit |
