@@ -54,13 +54,12 @@
 4. 缺口诚实：版本区间冲突、KEV 滞后、样本偏倚。  
 5. 可执行处置：升级路径、临时缓解、检测方向。  
 
-## 与其它仓库分工
+## 产物仓库
 
 | 仓库 | 内容 |
 |------|------|
-| raystyle/intelligence | 技能源码与契约 |
-| raystyle/intel-daily | intelligence skill 每日记录产物（`~/Documents/intel-daily` · 按日目录） |
-| raystyle/mac-daily | Mac 智能体每日操作与部署记录产物（`~/Documents/mac-daily`） |
+| raystyle/intelligence | 本技能源码与契约 |
+| raystyle/intel-daily | 本技能每日记录产物（`~/Documents/intel-daily` · 按日目录） |
 
 产物路径：`~/Documents/intel-daily/YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`
 
