@@ -63,11 +63,9 @@
 
 产物路径：`~/Documents/intel-daily/YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`
 
-## 完善路线（未做完可继续）
+## 完善路线
 
 - [x] 中文 skill 骨架 + 安全/技术分型  
 - [x] 权威源与失败模式参考  
 - [x] 本地 git · remote 配置 · **暂不 push**  
-- [ ] 实战样例（脱敏 brief）  
-- [ ] 可选：安全域 allowlist 脚本化  
 - [ ] 推送到 GitHub 并写 About  
