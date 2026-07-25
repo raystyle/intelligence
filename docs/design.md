@@ -1,71 +1,51 @@
-# intelligence 设计说明（本地完善稿）
+# intelligence 设计要点
+
+人读摘要。**运行契约以 `skills/intelligence/SKILL.md` 为准。**
 
 ## 定位
 
 | | |
 |--|--|
-| 名称 | intelligence |
-| 仓库 | raystyle/intelligence |
-| 用途 | **网络安全情报** + **前沿技术情报** 分析与中文简报 |
-| 宿主 | 优先 Grok Build（X 工具 + web 工具） |
+| 名称 | intelligence · `/intelligence` |
+| 源码 | `raystyle/intelligence` |
+| 产物 | `raystyle/intel-daily` · `~/Documents/intel-daily` |
+| 宿主 | Grok Build（web + X 工具） |
 
-不是：热榜发现器、攻击教程、PoC 生成器、未经验证的「0day 合集」搬运。
+双主线：**网络安全情报**、**前沿技术情报**（可 hybrid）。
 
-## 情报类型
+不是：热榜发现器、攻击教程、PoC 生成器、未验证 0day 合集搬运。
 
-### A. 网络安全情报（security）
+## 模式
 
-- CVE / 在野利用 / CISA KEV  
-- 厂商安全公告、补丁日、热修  
-- 组件级风险（如 fastjson、SharePoint、浏览器）  
-- 处置优先级与缓解（无 exploit 步骤）
+| 模式 | 主线 | 信源 |
+|------|------|------|
+| security | 网络安全 | 权威 Web 优先 + X 舆论 |
+| tech | 前沿技术 | 官方 Web 有限 + X 舆论 |
+| hybrid | 交织 | 事实走安全/官方；舆论走 X |
 
-### B. 前沿技术情报（tech）
+## 产物与同步
 
-- 模型/产品突破与发布  
-- 关键能力、基准与评测争议  
-- 关键协议、基础设施与开发者工具重大变更  
+有结论的交互结束 → **必产物 + 必同步**（同一轮）：
 
-### C. 混合（hybrid）
+1. 写 `YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`  
+2. 更新当日 `index.md`  
+3. 在 `~/Documents/intel-daily`：`commit` + `push`  
+4. 回复报告路径与 commit hash  
 
-- 安全事件引发的技术路线讨论  
-- 前沿发布同时带漏洞/合规叙事  
+无结论（仅追问）或用户明确免落盘/免 push → 跳过。
 
-## 信源策略
+## 安全边界
 
-| 类型 | X | 权威 Web | 备注 |
-|------|---|----------|------|
-| 安全**事实**（CVE 是否存在、影响版本、是否在野） | 辅助 | **优先**（NVD/CVE/CISA/厂商） | 可多次 web，但必须列来源 |
-| 安全**舆论** | **主** | 少用 | 与事实分开写 |
-| 技术**事实**（是否发布、官方参数） | 辅助 | 官方博客/仓库/文档 | 有限 web |
-| 技术**舆论** | **主** | 少用 | 中英圈分开标注 |
+- 不编造 CVE / 帖子 / 链接  
+- 事实与舆论分栏  
+- 无完整 exploit / 可复制 payload  
+- 缺口诚实（版本冲突、KEV 滞后、样本偏倚）  
 
-预算建议（可调）：
-
-- 安全模式：web **3–8** 次（权威域优先）+ X **4–10** 次  
-- 技术模式：web **0–3** 次 + X **8–14** 次（更接近原 whathappened）  
-- 混合：两者折中，事实与舆论分节  
-
-## 输出原则
-
-1. 中文默认；专名可英文。  
-2. **事实 / 舆论分栏**，不把 X 热度写成官方结论。  
-3. 无利用细节、无完整 PoC；可写「公开 PoC 存在 / 不建议复现」。  
-4. 缺口诚实：版本区间冲突、KEV 滞后、样本偏倚。  
-5. 可执行处置：升级路径、临时缓解、检测方向。  
-
-## 产物仓库
+## 仓库边界
 
 | 仓库 | 内容 |
 |------|------|
-| raystyle/intelligence | 本技能源码与契约 |
-| raystyle/intel-daily | 本技能每日记录产物（`~/Documents/intel-daily` · 按日目录） |
+| intelligence | 技能源码与契约（本仓） |
+| intel-daily | 每日记录产物 |
 
-产物路径：`~/Documents/intel-daily/YYYY-MM-DD/{security\|tech\|hybrid}/{slug}.md`
-
-## 完善路线
-
-- [x] 中文 skill 骨架 + 安全/技术分型  
-- [x] 权威源与失败模式参考  
-- [x] 本地 git · remote 配置 · **暂不 push**  
-- [ ] 推送到 GitHub 并写 About  
+简报只进 intel-daily，不进本仓。

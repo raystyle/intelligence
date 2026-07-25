@@ -31,7 +31,7 @@ from:msftsecurity SharePoint (exploited OR zero-day OR KEV)
 "SharePoint" (CVE-2026 OR RCE) min_faves:5
 ```
 
-## 技术发布
+## 前沿技术发布
 
 ```text
 "{Product}" (launch OR released OR 发布 OR 开源) since:{今天}

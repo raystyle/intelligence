@@ -1,16 +1,14 @@
 # intelligence
 
-网络安全情报与前沿技术情报分析技能（Grok Build Agent Skill）。
-
-双主线：**网络安全**（CVE / 在野 / 厂商通告）与 **前沿技术**（模型/产品突破、关键基础设施），以及 X 上的公开讨论。  
-输出默认 **中文**，中英双语检索。
+Grok Build 技能：**网络安全情报**与**前沿技术情报**中文中立简报。
 
 | | |
 |--|--|
-| 本地路径 | `~/intelligence` |
-| 远程（暂不同步） | https://github.com/raystyle/intelligence |
-| 技能名 | `/intelligence` |
-| 运行时链接 | `~/.grok/skills/intelligence` → 本仓库 `skills/intelligence` |
+| 技能 | `/intelligence` |
+| 本地 | `~/intelligence` |
+| 远程 | https://github.com/raystyle/intelligence |
+| 运行时 | `~/.grok/skills/intelligence` → `skills/intelligence` |
+| 产物 | https://github.com/raystyle/intel-daily · `~/Documents/intel-daily` |
 
 ## 做什么
 
@@ -20,13 +18,17 @@
 /intelligence Kimi K3
 ```
 
-或自然语言：「最新 SharePoint 在野利用」「X 上怎么看某某发布」。
+或自然语言：「最新 SharePoint 在野」「某某模型刚发布 X 上怎么看」。
 
-产出中立简报：事实时间线、影响面、舆论/争议（若相关）、权威回执与缺口。
+双主线：
 
-## 安装到 Grok（本机）
+1. **网络安全情报** — CVE / 在野 / KEV / 厂商通告 / 可执行处置  
+2. **前沿技术情报** — 模型·产品突破、关键能力与边界、关键基础设施  
 
-开发时用符号链接，改仓库即生效：
+输出中文简报：结论、事实、舆论（若有 X 样本）、权威回执与缺口。  
+**有结论 → 必落盘 + 必同步** 到 `intel-daily`（详见 skill 契约）。
+
+## 安装（本机）
 
 ```bash
 mkdir -p ~/.grok/skills
@@ -37,45 +39,50 @@ ln -sfn ~/intelligence/skills/intelligence ~/.grok/skills/intelligence
 
 ```text
 skills/intelligence/
-  SKILL.md                 # 主契约
+  SKILL.md                 # 主契约（Agent 执行）
   references/
-    query-patterns.md      # X 检索
-    security-sources.md    # 安全情报权威源与优先级
-    tech-sources.md        # 技术情报源与优先级
+    query-patterns.md      # X / 关键词检索
+    security-sources.md    # 网络安全权威源
+    tech-sources.md        # 前沿技术信源
     failure-modes.md       # 失败模式
 docs/
-  design.md                # 设计说明（本地完善用）
+  design.md                # 设计要点（人读，非运行时）
 examples/
-  brief-security.md        # 安全类输出示例骨架
-  brief-tech.md            # 技术类输出示例骨架
+  brief-security.md        # 网络安全简报骨架
+  brief-tech.md            # 前沿技术简报骨架
 ```
 
-## 与其它仓库分工
+## 产物约定
 
-| 仓库 | 本地 | 用途 | 同步 |
-|------|------|------|------|
-| **intelligence** | `~/intelligence` | 技能源码与契约（`/intelligence`） | 暂不同步 |
-| **intel-daily** | `~/Documents/intel-daily` | intelligence skill 每日记录产物 `YYYY-MM-DD/{security\|tech\|hybrid}/` | 与远程同步 |
-| **mac-daily** | `~/Documents/mac-daily` | Mac 智能体每日操作与部署记录产物 | 与远程同步 |
+```text
+~/Documents/intel-daily/YYYY-MM-DD/{security|tech|hybrid}/{slug}.md
+~/Documents/intel-daily/YYYY-MM-DD/index.md
+```
 
-产物约定与 grok-workspace / mac-daily 一样按**日期目录**落盘；技能写完简报后告知路径，**不自动** `git push`。
+| 规则 | 说明 |
+|------|------|
+| 触发 | 一次情报交互**形成结论**时 |
+| 动作 | 写文件 → 更新 index → `git commit` + `git push` intel-daily |
+| 例外 | 仅追问无结论；或用户明确免落盘/免 push |
 
-## 与上游关系
+技能源码仓（本仓库）与产物仓分离：简报**不**写入 `raystyle/intelligence`。
 
-灵感来自 [kunchenguid/whathappened](https://github.com/kunchenguid/whathappened)，但定位不同：
+## 与上游
 
-- 不止 X 舆论，还覆盖 **技术与网络安全事实情报**
-- 安全事实允许受控使用 **权威网页源**（CISA/NVD/厂商公告等）
-- 中文输出、中英检索、双信心（事实/舆论）
+灵感来自 [kunchenguid/whathappened](https://github.com/kunchenguid/whathappened)，定位不同：
+
+- 覆盖网络安全事实 + 前沿技术，不止 X 舆论  
+- 安全事实优先权威 Web（CISA / NVD / 厂商）  
+- 中文输出、中英检索、事实与舆论分栏  
 
 ## 开发
 
 ```bash
 cd ~/intelligence
 $EDITOR skills/intelligence/SKILL.md
-# 完善满意后再:
-# git add -A && git commit -m "..."
-# git push -u origin main   # 你说先不同步
+git add -A && git status
+git commit -m "..."
+git push origin main
 ```
 
 ## 许可
